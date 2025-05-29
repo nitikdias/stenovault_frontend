@@ -11,6 +11,10 @@ export default function Register() {
   const [transcript, setTranscript] = useState('');
   const [microphones, setMicrophones] = useState([]);
   const [selectedMicId, setSelectedMicId] = useState('');
+  const [users, setUsers] = useState([]);
+  const [usersVisible, setUsersVisible] = useState(false);
+
+
 
   const recorderRef = useRef(null);
   const audioContextRef = useRef(null);
@@ -95,29 +99,53 @@ export default function Register() {
   };
 
   const verify = async () => {
-    alert(`✅ Verified!\nName: ${name}\nTranscript: ${transcript}`);
+  alert(`✅ Verified!\nName: ${name}`);
 
+  try {
+    const res = await fetch('http://localhost:5000/register-speaker', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name }),
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      setStatus('✅ Speaker registered!');
+      setName(''); // Clear the input field
+    } else {
+      setStatus(`❌ ${data.error}`);
+    }
+  } catch (err) {
+    console.error(err);
+    setStatus('❌ Speaker registration failed');
+  }
+};
+
+
+  const fetchUsers = async () => {
+  if (!usersVisible) {
     try {
-      const res = await fetch('http://localhost:5000/register-speaker', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name }),
-      });
-
+      const res = await fetch('http://localhost:5000/list-users');
+      if (!res.ok) throw new Error('Failed to fetch users');
       const data = await res.json();
-      if (data.success) {
-        setStatus('✅ Speaker registered!');
-      } else {
-        setStatus(`❌ ${data.error}`);
-      }
+      setUsers(data.users || []);
+      setUsersVisible(true);
     } catch (err) {
       console.error(err);
-      setStatus('❌ Speaker registration failed');
+      setStatus('❌ Failed to fetch users');
     }
-  };
+  } else {
+    // If visible, hide the list on toggle
+    setUsersVisible(false);
+  }
+};
+
+
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg mt-8">
+      
+
 
           <button
             onClick={() => router.back()}
@@ -193,6 +221,25 @@ export default function Register() {
           ✅ Verify
         </button>
       </form>
+      <div className="mb-4">
+      <button
+      onClick={fetchUsers}
+      className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition duration-200"
+    >
+      {usersVisible ? '❌ Close Users' : '👤 Show Users'}
+    </button>
+
+      {usersVisible && users.length > 0 && (
+      <ul className="mt-2 max-h-40 overflow-y-auto border border-gray-300 rounded p-2 bg-gray-50">
+        {users.map((user, i) => (
+          <li key={i} className="text-gray-800">
+            {user}
+          </li>
+        ))}
+      </ul>
+    )}
+
+    </div>
     </div>
   );
 }
