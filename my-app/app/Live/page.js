@@ -48,14 +48,15 @@ export default function Home() {
   }, []);
 
   const fetchTranscript = async () => {
-    try {
-      const res = await fetch('http://localhost:5000/get_transcript');
-      const data = await res.json();
-      setTranscript(data.transcript || '');
-    } catch (err) {
-      console.error('Transcript fetch error', err);
-    }
-  };
+  try {
+    const res = await fetch('http://localhost:5000/get_transcript');
+    const data = await res.json();
+    setTranscript(data.transcript || '');        // original speaker-diarized transcript
+    setTranslation(data.translation || '');      // speaker-diarized translation
+  } catch (err) {
+    console.error('Transcript fetch error', err);
+  }
+};
 
   const getSummary = async () => {
     try {
