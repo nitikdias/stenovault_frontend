@@ -82,14 +82,16 @@ export default function File() {
     
 
   const fetchTranscript = async () => {
-    try {
-      const res = await fetch('http://localhost:5000/get_transcript');
-      const data = await res.json();
-      setTranscript(data.transcript || '');
-    } catch (err) {
-      console.error('Transcript fetch error', err);
-    }
-  };
+  try {
+    const res = await fetch('http://localhost:5000/get_transcript');
+    const data = await res.json();
+    setTranscript(data.transcript || '');        // original speaker-diarized transcript
+    setTranslation(data.translation || '');      // speaker-diarized translation
+  } catch (err) {
+    console.error('Transcript fetch error', err);
+  }
+};
+
 
   const clearFiles = async () => {
   try {
@@ -151,6 +153,15 @@ export default function File() {
 
   return (
     <div className="flex flex-col items-center py-10 bg-gradient-to-r from-blue-100 to-white min-h-screen">
+    <div className="relative w-full">
+      <button
+        onClick={() => router.push('/Register')}
+        className="absolute top-4 right-4 bg-indigo-600 text-white px-4 py-2 text-sm rounded-lg shadow hover:bg-indigo-700 transition"
+      >
+        Register
+      </button>
+    </div>
+
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-lg">
         <div className="w-full max-w-lg mb-6">
           <button
