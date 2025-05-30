@@ -42,7 +42,7 @@ export default function File() {
     formData.append('file', file);
 
     try {
-      const res = await fetch('http://164.52.194.238/upload', {
+      const res = await fetch('http://164.52.194.238:80/upload', {
         method: 'POST',
         body: formData,
       });
