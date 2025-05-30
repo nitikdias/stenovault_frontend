@@ -159,9 +159,10 @@ export default function Register() {
       <p className="text-gray-600 mb-6">
         Please say: <br />
         <span className="italic font-medium">
-          "Hi, my name is [Your Name]. The curious engineer quickly evaluated the results of every major experiment, balancing risk, precision, and time. From morning till night, she spoke with clarity, adjusting tone, pitch, and pace to match every situation"
+          &quot;Hi, my name is [Your Name]. The curious engineer quickly evaluated the results of every major experiment, balancing risk, precision, and time. From morning till night, she spoke with clarity, adjusting tone, pitch, and pace to match every situation&quot;
         </span>
       </p>
+      
 
       <div className="mb-4">
         <label className="block text-gray-700 mb-1">🎙️ Select Microphone</label>
