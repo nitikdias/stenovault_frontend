@@ -69,7 +69,7 @@ export default function File() {
   }
 
   try {
-    const res = await fetch('http://164.52.194.238/process', { method: 'POST' });
+    const res = await fetch('http://164.52.194.238:80/process', { method: 'POST' });
     if (!res.ok) throw new Error('Server error');
     const data = await res.json();
     setTranscript(data.transcript || '');
@@ -83,7 +83,7 @@ export default function File() {
 
   const fetchTranscript = async () => {
   try {
-    const res = await fetch('http://164.52.194.238/get_transcript');
+    const res = await fetch('http://164.52.194.238:80/get_transcript');
     const data = await res.json();
     setTranscript(data.transcript || '');        // original speaker-diarized transcript
     setTranslation(data.translation || '');      // speaker-diarized translation
@@ -101,7 +101,7 @@ export default function File() {
       intervalIdRef.current = null;
     }
 
-    const res = await fetch('http://164.52.194.238/clear', { method: 'POST' });
+    const res = await fetch('http://164.52.194.238:80/clear', { method: 'POST' });
     if (res.ok) {
       alert('Files cleared successfully.');
 
@@ -131,7 +131,7 @@ export default function File() {
 
   const fetchSummary = async () => {
     try {
-      const res = await fetch('http://164.52.194.238/get_summary_live');
+      const res = await fetch('http://164.52.194.238:80/get_summary_live');
       const data = await res.json();
       setSummary(data.summary || 'No summary available.');
       setKeyPoints(data.key_points || 'No key points.');
@@ -143,7 +143,7 @@ export default function File() {
 
   const fetchTranslation = async () => {
     try {
-      const res = await fetch('http://164.52.194.238/get-translation');
+      const res = await fetch('http://164.52.194.238:80/get-translation');
       const data = await res.json();
       setTranslation(data.translation || 'No translation available.');
     } catch (err) {
