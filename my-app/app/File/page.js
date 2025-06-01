@@ -8,6 +8,7 @@ export default function File() {
   const [file, setFile] = useState(null);
   const [alertVisible, setAlertVisible] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [processSuccess, setProcessSuccess] = useState(false);
   const [results, setResults] = useState([]);
   const [summary, setSummary] = useState('');
   const [keyPoints, setKeyPoints] = useState('');
@@ -17,6 +18,22 @@ export default function File() {
   const [transcript, setTranscript] = useState('');
   const intervalIdRef = useRef(null);
   const transcriptRef = useRef(null); // For auto-scroll
+
+  useEffect(() => {
+    const clearBackend = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/clear_live', {
+          method: 'POST',
+        });
+        if (!res.ok) throw new Error('Failed to clear');
+        console.log('✅ Backend cleared for live session');
+      } catch (err) {
+        console.error('❌ Clear live error:', err);
+      }
+    };
+
+    clearBackend();
+  }, []);
 
   // Clean up polling interval
   useEffect(() => {
@@ -42,7 +59,7 @@ export default function File() {
     formData.append('file', file);
 
     try {
-      const res = await fetch('http://164.52.194.238:80/upload', {
+      const res = await fetch('http://localhost:5000/upload', {
         method: 'POST',
         body: formData,
       });
@@ -60,30 +77,40 @@ export default function File() {
   };
 
   const startProcessing = async () => {
-  setProcessing(true);
+  setProcessing(true);      // Show loading popup
+  setProcessSuccess(false); // Hide success popup
 
-  // ✅ Start polling first
+  // Start polling transcript updates too
   if (!intervalIdRef.current) {
-    console.log('Starting polling...');
     intervalIdRef.current = setInterval(fetchTranscript, 3000);
   }
 
   try {
-    const res = await fetch('http://164.52.194.238:80/process', { method: 'POST' });
+    const res = await fetch('http://localhost:5000/process', { method: 'POST' });
     if (!res.ok) throw new Error('Server error');
+
     const data = await res.json();
-    setTranscript(data.transcript || '');
+    if (data.success) {
+      setProcessSuccess(true); // Show success popup only after full processing
+    } else {
+      alert('Processing failed: ' + data.message);
+    }
   } catch (err) {
-    console.error('Transcript fetch error', err);
+    console.error(err);
+    alert('Error during processing.');
+  } finally {
+    setProcessing(false); // Stop loading popup
   }
 };
+
+
 
 
     
 
   const fetchTranscript = async () => {
   try {
-    const res = await fetch('http://164.52.194.238:80/get_transcript');
+    const res = await fetch('http://localhost:5000/get_transcript');
     const data = await res.json();
     setTranscript(data.transcript || '');        // original speaker-diarized transcript
     setTranslation(data.translation || '');      // speaker-diarized translation
@@ -101,7 +128,7 @@ export default function File() {
       intervalIdRef.current = null;
     }
 
-    const res = await fetch('http://164.52.194.238:80/clear', { method: 'POST' });
+    const res = await fetch('http://localhost:5000/clear', { method: 'POST' });
     if (res.ok) {
       alert('Files cleared successfully.');
 
@@ -131,7 +158,7 @@ export default function File() {
 
   const fetchSummary = async () => {
     try {
-      const res = await fetch('http://164.52.194.238:80/get_summary_live');
+      const res = await fetch('http://localhost:5000/get_summary_live');
       const data = await res.json();
       setSummary(data.summary || 'No summary available.');
       setKeyPoints(data.key_points || 'No key points.');
@@ -143,7 +170,7 @@ export default function File() {
 
   const fetchTranslation = async () => {
     try {
-      const res = await fetch('http://164.52.194.238:80/get-translation');
+      const res = await fetch('http://localhost:5000/get-translation');
       const data = await res.json();
       setTranslation(data.translation || 'No translation available.');
     } catch (err) {
@@ -248,10 +275,19 @@ export default function File() {
         </div>
 
         {processing && (
-          <div className="bg-blue-100 text-blue-800 p-3 mt-6 rounded-lg shadow-sm">
+          <div className="p-3 mt-6 rounded-lg shadow-sm bg-blue-100 text-blue-800">
             🔄 Please wait, processing the file and updating transcript...
           </div>
         )}
+
+        {processSuccess && (
+          <div className="p-3 mt-6 rounded-lg shadow-sm bg-green-100 text-green-800">
+            ✅ Processing complete. Transcript updated.
+          </div>
+        )}
+
+
+
       </div>
 
       {/* Transcript */}
