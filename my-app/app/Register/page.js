@@ -68,7 +68,7 @@ export default function Register() {
       const formData = new FormData();
       formData.append('audio', blob, 'newuser.wav');
 
-      const res = await fetch('http://164.52.194.238:80/upload-User', {
+      const res = await fetch('http://localhost:5000/upload-User', {
         method: 'POST',
         body: formData,
       });
@@ -83,7 +83,7 @@ export default function Register() {
 
   const processRecording = async () => {
     try {
-      const res = await fetch('http://164.52.194.238:80/transcribeUser');
+      const res = await fetch('http://localhost:5000/transcribeUser');
       const data = await res.json();
 
       if (data.success) {
@@ -102,7 +102,7 @@ export default function Register() {
   alert(`✅ Verified!\nName: ${name}`);
 
   try {
-    const res = await fetch('http://164.52.194.238:80/register-speaker', {
+    const res = await fetch('http://localhost:5000/register-speaker', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name }),
@@ -125,7 +125,7 @@ export default function Register() {
   const fetchUsers = async () => {
   if (!usersVisible) {
     try {
-      const res = await fetch('http://164.52.194.238:80/list-users');
+      const res = await fetch('http://localhost:5000/list-users');
       if (!res.ok) throw new Error('Failed to fetch users');
       const data = await res.json();
       setUsers(data.users || []);
@@ -139,7 +139,21 @@ export default function Register() {
     setUsersVisible(false);
   }
 };
+useEffect(() => {
+    const clearBackend = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/clear_live', {
+          method: 'POST',
+        });
+        if (!res.ok) throw new Error('Failed to clear');
+        console.log('✅ Backend cleared for live session');
+      } catch (err) {
+        console.error('❌ Clear live error:', err);
+      }
+    };
 
+    clearBackend();
+  }, []);
 
 
   return (
@@ -162,7 +176,7 @@ export default function Register() {
           &quot;Hi, my name is [Your Name]. The curious engineer quickly evaluated the results of every major experiment, balancing risk, precision, and time. From morning till night, she spoke with clarity, adjusting tone, pitch, and pace to match every situation&quot;
         </span>
       </p>
-      
+
 
       <div className="mb-4">
         <label className="block text-gray-700 mb-1">🎙️ Select Microphone</label>
