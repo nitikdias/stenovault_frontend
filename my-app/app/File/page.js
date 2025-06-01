@@ -22,7 +22,7 @@ export default function File() {
   useEffect(() => {
     const clearBackend = async () => {
       try {
-        const res = await fetch('http://localhost:5000/clear_live', {
+        const res = await fetch('http://164.52.194.238:80/clear_live', {
           method: 'POST',
         });
         if (!res.ok) throw new Error('Failed to clear');
@@ -59,7 +59,7 @@ export default function File() {
     formData.append('file', file);
 
     try {
-      const res = await fetch('http://localhost:5000/upload', {
+      const res = await fetch('http://164.52.194.238:80/upload', {
         method: 'POST',
         body: formData,
       });
@@ -86,7 +86,7 @@ export default function File() {
   }
 
   try {
-    const res = await fetch('http://localhost:5000/process', { method: 'POST' });
+    const res = await fetch('http://164.52.194.238:80/process', { method: 'POST' });
     if (!res.ok) throw new Error('Server error');
 
     const data = await res.json();
