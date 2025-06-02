@@ -83,7 +83,12 @@ export default function Register() {
 
   const processRecording = async () => {
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/transcribeUser');
+      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/transcribeUser',{
+      method:"GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
+        "Content-Type": "application/json"
+      });
       const data = await res.json();
 
       if (data.success) {
@@ -125,7 +130,12 @@ export default function Register() {
   const fetchUsers = async () => {
   if (!usersVisible) {
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/list-users');
+      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/list-users,{
+      method:"GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
+        "Content-Type": "application/json"
+      }');
       if (!res.ok) throw new Error('Failed to fetch users');
       const data = await res.json();
       setUsers(data.users || []);
