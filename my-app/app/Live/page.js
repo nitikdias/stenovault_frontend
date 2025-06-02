@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Recorder from 'recorder-js';
-import './globals.css'
+import '../globals.css'
 
 
 export default function Home() {
