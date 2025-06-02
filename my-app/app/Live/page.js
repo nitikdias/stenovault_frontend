@@ -49,7 +49,12 @@ export default function Home() {
 
   const fetchTranscript = async () => {
   try {
-    const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_transcript');
+    const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_transcript,{
+      method:"GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
+        "Content-Type": "application/json"
+      }');
     const data = await res.json();
     setTranscript(data.transcript || '');        // original speaker-diarized transcript
     setTranslation(data.translation || '');      // speaker-diarized translation
@@ -60,7 +65,12 @@ export default function Home() {
 
   const getSummary = async () => {
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_summary_live');
+      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_summary_live,{
+      method:"GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
+        "Content-Type": "application/json"
+      }');
       const data = await res.json();
       setSummary(data.summary || 'No summary available.');
       setKeyPoints(data.key_points || 'No key points.');
@@ -72,7 +82,12 @@ export default function Home() {
 
   const getTranslation = async () => {
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get-translation');
+      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get-translation,{
+      method:"GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
+        "Content-Type": "application/json"
+      }');
       const data = await res.json();
       setTranslation(data.translation || 'No translation available.');
     } catch (err) {
