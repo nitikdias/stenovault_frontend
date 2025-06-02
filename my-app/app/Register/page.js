@@ -14,7 +14,7 @@ export default function Register() {
   const [users, setUsers] = useState([]);
   const [usersVisible, setUsersVisible] = useState(false);
 
-const BASE_URL = 'https://ad3c-103-50-21-208.ngrok-free.app';
+const BASE_URL = 'https://1ecb-103-50-21-208.ngrok-free.app';
 
 const apiRoutes = {
   uploadUser: `${BASE_URL}/upload-User`,
