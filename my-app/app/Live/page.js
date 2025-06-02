@@ -69,8 +69,8 @@ export default function Home() {
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"
-      }');
+        "Content-Type": "application/json"}
+      });
       const data = await res.json();
       setSummary(data.summary || 'No summary available.');
       setKeyPoints(data.key_points || 'No key points.');
@@ -86,8 +86,8 @@ export default function Home() {
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"
-      }');
+        "Content-Type": "application/json"}
+      });
       const data = await res.json();
       setTranslation(data.translation || 'No translation available.');
     } catch (err) {
