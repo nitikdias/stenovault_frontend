@@ -87,7 +87,7 @@ export default function Register() {
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"
+        "Content-Type": "application/json"}
       });
       const data = await res.json();
 
@@ -134,8 +134,8 @@ export default function Register() {
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"
-      }');
+        "Content-Type": "application/json"}
+      });
       if (!res.ok) throw new Error('Failed to fetch users');
       const data = await res.json();
       setUsers(data.users || []);
