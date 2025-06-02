@@ -114,7 +114,7 @@ export default function File() {
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"
+        "Content-Type": "application/json"}
       });
     const data = await res.json();
     setTranscript(data.transcript || '');        // original speaker-diarized transcript
@@ -167,7 +167,7 @@ export default function File() {
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"
+        "Content-Type": "application/json"}
       });
       const data = await res.json();
       setSummary(data.summary || 'No summary available.');
@@ -184,7 +184,7 @@ export default function File() {
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"
+        "Content-Type": "application/json"}
       }');
       const data = await res.json();
       setTranslation(data.translation || 'No translation available.');
