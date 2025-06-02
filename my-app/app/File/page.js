@@ -19,7 +19,7 @@ export default function File() {
   const intervalIdRef = useRef(null);
   const transcriptRef = useRef(null); // For auto-scroll
 
-  const API_BASE_URL = 'https://1ecb-103-50-21-208.ngrok-free.app';
+  const BASE_URL = 'https://1ecb-103-50-21-208.ngrok-free.app';
   
   const apiRoutes = {
   clearLive: `${BASE_URL}/clear_live`,
