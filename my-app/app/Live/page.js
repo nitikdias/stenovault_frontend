@@ -21,6 +21,17 @@ export default function Home() {
   const [micDevices, setMicDevices] = useState([]);
   const [selectedMicId, setSelectedMicId] = useState('');
 
+  const API_BASE_URL = 'https://1ecb-103-50-21-208.ngrok-free.app';
+
+  const endpoints = {
+  getTranscript: `${API_BASE_URL}/get_transcript`,
+  getSummaryLive: `${API_BASE_URL}/get_summary_live`,
+  getTranslation: `${API_BASE_URL}/get-translation`,
+  uploadChunk: `${API_BASE_URL}/uploadchunk`,
+  clearLive: `${API_BASE_URL}/clear_live`,
+  setLanguage: `${API_BASE_URL}/set_language`,
+};
+
   useEffect(() => {
     audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
     recorderRef.current = new Recorder(audioContextRef.current);
@@ -49,15 +60,17 @@ export default function Home() {
 
   const fetchTranscript = async () => {
   try {
-    const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_transcript',{
+    const res = await fetch(endpoints.getTranscript,{
       method:"GET",
       headers: {
-        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"}
-      });
+        "ngrok-skip-browser-warning": "true",  
+        "Content-Type": "application/json"
+      }
+
+    });
     const data = await res.json();
-    setTranscript(data.transcript || '');        // original speaker-diarized transcript
-    setTranslation(data.translation || '');      // speaker-diarized translation
+    setTranscript(data.transcript || '');       
+    setTranslation(data.translation || '');      
   } catch (err) {
     console.error('Transcript fetch error', err);
   }
@@ -65,12 +78,7 @@ export default function Home() {
 
   const getSummary = async () => {
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_summary_live',{
-      method:"GET",
-      headers: {
-        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"}
-      });
+      const res = await fetch(endpoints.getSummaryLive);
       const data = await res.json();
       setSummary(data.summary || 'No summary available.');
       setKeyPoints(data.key_points || 'No key points.');
@@ -82,12 +90,7 @@ export default function Home() {
 
   const getTranslation = async () => {
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get-translation',{
-      method:"GET",
-      headers: {
-        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"}
-      });
+      const res = await fetch(endpoints.getTranslation);
       const data = await res.json();
       setTranslation(data.translation || 'No translation available.');
     } catch (err) {
@@ -139,7 +142,7 @@ export default function Home() {
     formData.append('audio', blob, filename);
 
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/uploadchunk', {
+      const res = await fetch(endpoints.uploadChunk, {
         method: 'POST',
         body: formData,
       });
@@ -152,7 +155,7 @@ export default function Home() {
   useEffect(() => {
     const clearBackend = async () => {
       try {
-        const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/clear_live', {
+        const res = await fetch(endpoints.clearLive, {
           method: 'POST',
         });
         if (!res.ok) throw new Error('Failed to clear');
@@ -167,7 +170,7 @@ export default function Home() {
 
   const clearData = async () => {
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/clear_live', {
+      const res = await fetch(endpoints.clearLive, {
         method: 'POST',
       });
       const data = await res.json();
@@ -219,7 +222,7 @@ export default function Home() {
               value={language}
               onChange={(e) => {
                 setLanguage(e.target.value);
-                fetch('http://localhost:5000/set_language', {
+                fetch(endpoints.setLanguage, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ language: e.target.value }),
