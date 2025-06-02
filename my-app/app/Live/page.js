@@ -51,7 +51,7 @@ export default function Home() {
 
   const fetchTranscript = async () => {
   try {
-    const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/get_transcript',{
+    const res = await fetch('https://2da8-103-50-21-208.ngrok-free.app/get_transcript',{
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
@@ -67,7 +67,7 @@ export default function Home() {
 
   const getSummary = async () => {
     try {
-      const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/get_summary_live',{
+      const res = await fetch('https://2da8-103-50-21-208.ngrok-free.app/get_summary_live',{
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
@@ -84,7 +84,7 @@ export default function Home() {
 
   const getTranslation = async () => {
     try {
-      const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/get-translation',{
+      const res = await fetch('https://2da8-103-50-21-208.ngrok-free.app/get-translation',{
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
@@ -141,7 +141,7 @@ export default function Home() {
     formData.append('audio', blob, filename);
 
     try {
-      const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/uploadchunk', {
+      const res = await fetch('https://2da8-103-50-21-208.ngrok-free.app/uploadchunk', {
         method: 'POST',
         body: formData,
       });
@@ -154,7 +154,7 @@ export default function Home() {
   useEffect(() => {
     const clearBackend = async () => {
       try {
-        const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/clear_live', {
+        const res = await fetch('https://2da8-103-50-21-208.ngrok-free.app/clear_live', {
           method: 'POST',
         });
         if (!res.ok) throw new Error('Failed to clear');
@@ -169,7 +169,7 @@ export default function Home() {
 
   const clearData = async () => {
     try {
-      const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/clear_live', {
+      const res = await fetch('https://2da8-103-50-21-208.ngrok-free.app/clear_live', {
         method: 'POST',
       });
       const data = await res.json();
@@ -191,7 +191,7 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-br from-white to-blue-100 p-6">
       <div className="w-full overflow-hidden bg-yellow-100 text-yellow-800 py-2 mb-4">
         <div className="animate-marquee whitespace-nowrap font-semibold text-center">
-          ⚠️ Please register your voice before starting the recording Click the Register button below
+          ⚠️ Please register your voice before starting the recording Click the Register button above
         </div>
       </div>
 
@@ -228,7 +228,7 @@ export default function Home() {
               value={language}
               onChange={(e) => {
                 setLanguage(e.target.value);
-                fetch('https://1ecb-103-50-21-208.ngrok-free.app/set_language', {
+                fetch('https://2da8-103-50-21-208.ngrok-free.app/set_language', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ language: e.target.value }),
