@@ -185,7 +185,7 @@ export default function File() {
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
         "Content-Type": "application/json"}
-      }');
+      });
       const data = await res.json();
       setTranslation(data.translation || 'No translation available.');
     } catch (err) {
