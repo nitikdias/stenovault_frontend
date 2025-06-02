@@ -14,15 +14,7 @@ export default function Register() {
   const [users, setUsers] = useState([]);
   const [usersVisible, setUsersVisible] = useState(false);
 
-const BASE_URL = 'https://1ecb-103-50-21-208.ngrok-free.app';
 
-const apiRoutes = {
-  uploadUser: `${BASE_URL}/upload-User`,
-  transcribeUser: `${BASE_URL}/transcribeUser`,
-  registerSpeaker: `${BASE_URL}/register-speaker`,
-  listUsers: `${BASE_URL}/list-users`,
-  clearLive: `${BASE_URL}/clear_live`,
-};
 
   const recorderRef = useRef(null);
   const audioContextRef = useRef(null);
@@ -76,7 +68,7 @@ const apiRoutes = {
       const formData = new FormData();
       formData.append('audio', blob, 'newuser.wav');
 
-      const res = await fetch(apiRoutes.uploadUser, {
+      const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/upload-User', {
         method: 'POST',
         body: formData,
       });
@@ -91,7 +83,12 @@ const apiRoutes = {
 
   const processRecording = async () => {
     try {
-      const res = await fetch(apiRoutes.transcribeUser);
+      const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/transcribeUser',{
+      method:"GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
+        "Content-Type": "application/json"}
+      });
       const data = await res.json();
 
       if (data.success) {
@@ -110,7 +107,7 @@ const apiRoutes = {
   alert(`✅ Verified!\nName: ${name}`);
 
   try {
-    const res = await fetch(apiRoutes.registerSpeaker, {
+    const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/register-speaker', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name }),
@@ -133,7 +130,12 @@ const apiRoutes = {
   const fetchUsers = async () => {
   if (!usersVisible) {
     try {
-      const res = await fetch(apiRoutes.listUsers);
+      const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/list-users',{
+      method:"GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
+        "Content-Type": "application/json"}
+      });
       if (!res.ok) throw new Error('Failed to fetch users');
       const data = await res.json();
       setUsers(data.users || []);
@@ -150,7 +152,7 @@ const apiRoutes = {
 useEffect(() => {
     const clearBackend = async () => {
       try {
-        const res = await fetch(apiRoutes.clearLive, {
+        const res = await fetch('https://1ecb-103-50-21-208.ngrok-free.app/clear_live', {
           method: 'POST',
         });
         if (!res.ok) throw new Error('Failed to clear');
