@@ -219,7 +219,7 @@ export default function Home() {
               value={language}
               onChange={(e) => {
                 setLanguage(e.target.value);
-                fetch('http://localhost:5000/set_language', {
+                fetch('https://1ecb-103-50-21-208.ngrok-free.app/set_language', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ language: e.target.value }),
