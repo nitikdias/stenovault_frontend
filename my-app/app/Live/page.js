@@ -49,7 +49,7 @@ export default function Home() {
 
   const fetchTranscript = async () => {
   try {
-    const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_transcript,{
+    const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_transcript',{
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
@@ -65,7 +65,7 @@ export default function Home() {
 
   const getSummary = async () => {
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_summary_live,{
+      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_summary_live',{
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
@@ -82,7 +82,7 @@ export default function Home() {
 
   const getTranslation = async () => {
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get-translation,{
+      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get-translation',{
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
