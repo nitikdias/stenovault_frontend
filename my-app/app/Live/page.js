@@ -53,8 +53,8 @@ export default function Home() {
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
-        "Content-Type": "application/json"
-      }');
+        "Content-Type": "application/json"}
+      });
     const data = await res.json();
     setTranscript(data.transcript || '');        // original speaker-diarized transcript
     setTranslation(data.translation || '');      // speaker-diarized translation
