@@ -19,24 +19,10 @@ export default function File() {
   const intervalIdRef = useRef(null);
   const transcriptRef = useRef(null); // For auto-scroll
 
-  const BASE_URL = 'https://1ecb-103-50-21-208.ngrok-free.app';
-  
-  const apiRoutes = {
-  clearLive: `${BASE_URL}/clear_live`,
-  upload: `${BASE_URL}/upload`,
-  process: `${BASE_URL}/process`,
-  getTranscript: `${BASE_URL}/get_transcript`,
-  clear: `${BASE_URL}/clear`,
-  getSummaryLive: `${BASE_URL}/get_summary_live`,
-  getTranslation: `${BASE_URL}/get_translation`,
-  setLanguage: `${BASE_URL}/set_language`,
-};
-
-
   useEffect(() => {
     const clearBackend = async () => {
       try {
-        const res = await fetch(apiRoutes.clearLive, {
+        const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/clear_live', {
           method: 'POST',
         });
         if (!res.ok) throw new Error('Failed to clear');
@@ -73,7 +59,7 @@ export default function File() {
     formData.append('file', file);
 
     try {
-      const res = await fetch(apiRoutes.upload, {
+      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/upload', {
         method: 'POST',
         body: formData,
       });
@@ -100,7 +86,7 @@ export default function File() {
   }
 
   try {
-    const res = await fetch(apiRoutes.process, { method: 'POST' });
+    const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/process', { method: 'POST' });
     if (!res.ok) throw new Error('Server error');
 
     const data = await res.json();
@@ -117,12 +103,20 @@ export default function File() {
   }
 };
 
+
+
+
+    
+
   const fetchTranscript = async () => {
   try {
-    const res = await fetch(apiRoutes.getTranscript);
-    console.log('Response status:', res.status);
-    const text = await res.text();
-    console.log('Response text:', text);
+    const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_transcript',{
+      method:"GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
+        "Content-Type": "application/json"}
+      });
+    const data = await res.json();
     setTranscript(data.transcript || '');        // original speaker-diarized transcript
     setTranslation(data.translation || '');      // speaker-diarized translation
   } catch (err) {
@@ -139,7 +133,7 @@ export default function File() {
       intervalIdRef.current = null;
     }
 
-    const res = await fetch(apiRoutes.clear, { method: 'POST' });
+    const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/clear', { method: 'POST' });
     if (res.ok) {
       alert('Files cleared successfully.');
 
@@ -169,7 +163,12 @@ export default function File() {
 
   const fetchSummary = async () => {
     try {
-      const res = await fetch(apiRoutes.getSummaryLive);
+      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get_summary_live',{
+      method:"GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
+        "Content-Type": "application/json"}
+      });
       const data = await res.json();
       setSummary(data.summary || 'No summary available.');
       setKeyPoints(data.key_points || 'No key points.');
@@ -181,7 +180,12 @@ export default function File() {
 
   const fetchTranslation = async () => {
     try {
-      const res = await fetch(apiRoutes.getTranslation);
+      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get-translation',{
+      method:"GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
+        "Content-Type": "application/json"}
+      });
       const data = await res.json();
       setTranslation(data.translation || 'No translation available.');
     } catch (err) {
@@ -227,7 +231,7 @@ export default function File() {
             value={language}
             onChange={(e) => {
               setLanguage(e.target.value);
-              fetch(apiRoutes.setLanguage, {
+              fetch('http://localhost:5000/set_language', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ language: e.target.value }),
