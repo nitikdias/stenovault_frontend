@@ -187,11 +187,12 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-white to-blue-100 p-6">
-      <div className="w-full bg-yellow-200 text-yellow-900 py-2 px-4 rounded mb-4 text-center animate-marquee overflow-hidden">
-      <p className="whitespace-nowrap font-semibold">
-        ⚠️ Please register your voice before starting the recording. Click the Register button above.
-      </p>
-    </div>
+      <div className="w-full overflow-hidden bg-yellow-100 text-yellow-800 py-2 mb-4">
+        <div className="animate-marquee whitespace-nowrap font-semibold text-center">
+          ⚠️ Please register your voice before starting the recording Click the Register button above
+        </div>
+      </div>
+
 
       <div className="flex justify-end mb-4">
         <button
