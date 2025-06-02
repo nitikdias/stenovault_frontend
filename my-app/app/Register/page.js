@@ -83,7 +83,7 @@ export default function Register() {
 
   const processRecording = async () => {
     try {
-      const res = await fetch('http://localhost:5000/transcribeUser');
+      const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/transcribeUser');
       const data = await res.json();
 
       if (data.success) {
@@ -102,7 +102,7 @@ export default function Register() {
   alert(`✅ Verified!\nName: ${name}`);
 
   try {
-    const res = await fetch('http://localhost:5000/register-speaker', {
+    const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/register-speaker', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name }),
@@ -125,7 +125,7 @@ export default function Register() {
   const fetchUsers = async () => {
   if (!usersVisible) {
     try {
-      const res = await fetch('http://localhost:5000/list-users');
+      const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/list-users');
       if (!res.ok) throw new Error('Failed to fetch users');
       const data = await res.json();
       setUsers(data.users || []);
@@ -142,7 +142,7 @@ export default function Register() {
 useEffect(() => {
     const clearBackend = async () => {
       try {
-        const res = await fetch('http://localhost:5000/clear_live', {
+        const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/clear_live', {
           method: 'POST',
         });
         if (!res.ok) throw new Error('Failed to clear');
