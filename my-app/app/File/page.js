@@ -180,7 +180,7 @@ export default function File() {
 
   const fetchTranslation = async () => {
     try {
-      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get-translation,{
+      const res = await fetch('https://ad3c-103-50-21-208.ngrok-free.app/get-translation',{
       method:"GET",
       headers: {
         "ngrok-skip-browser-warning": "true",  // ✅ correct spelling
