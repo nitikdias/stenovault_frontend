@@ -49,7 +49,7 @@ export default function Home() {
 
   const fetchTranscript = async () => {
   try {
-    const res = await fetch('http://localhost:5000/get_transcript');
+    const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/get_transcript');
     const data = await res.json();
     setTranscript(data.transcript || '');        // original speaker-diarized transcript
     setTranslation(data.translation || '');      // speaker-diarized translation
@@ -60,7 +60,7 @@ export default function Home() {
 
   const getSummary = async () => {
     try {
-      const res = await fetch('http://localhost:5000/get_summary_live');
+      const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/get_summary_live');
       const data = await res.json();
       setSummary(data.summary || 'No summary available.');
       setKeyPoints(data.key_points || 'No key points.');
@@ -72,7 +72,7 @@ export default function Home() {
 
   const getTranslation = async () => {
     try {
-      const res = await fetch('http://localhost:5000/get-translation');
+      const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/get-translation');
       const data = await res.json();
       setTranslation(data.translation || 'No translation available.');
     } catch (err) {
@@ -124,7 +124,7 @@ export default function Home() {
     formData.append('audio', blob, filename);
 
     try {
-      const res = await fetch('http://localhost:5000/uploadchunk', {
+      const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/uploadchunk', {
         method: 'POST',
         body: formData,
       });
@@ -137,7 +137,7 @@ export default function Home() {
   useEffect(() => {
     const clearBackend = async () => {
       try {
-        const res = await fetch('http://localhost:5000/clear_live', {
+        const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/clear_live', {
           method: 'POST',
         });
         if (!res.ok) throw new Error('Failed to clear');
@@ -152,7 +152,7 @@ export default function Home() {
 
   const clearData = async () => {
     try {
-      const res = await fetch('http://localhost:5000/clear_live', {
+      const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/clear_live', {
         method: 'POST',
       });
       const data = await res.json();
