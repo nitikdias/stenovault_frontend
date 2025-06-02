@@ -22,7 +22,7 @@ export default function File() {
   useEffect(() => {
     const clearBackend = async () => {
       try {
-        const res = await fetch('http://164.52.194.238:80/clear_live', {
+        const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/clear_live', {
           method: 'POST',
         });
         if (!res.ok) throw new Error('Failed to clear');
@@ -86,7 +86,7 @@ export default function File() {
   }
 
   try {
-    const res = await fetch('http://164.52.194.238:80/process', { method: 'POST' });
+    const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/process', { method: 'POST' });
     if (!res.ok) throw new Error('Server error');
 
     const data = await res.json();
@@ -110,7 +110,7 @@ export default function File() {
 
   const fetchTranscript = async () => {
   try {
-    const res = await fetch('http://localhost:5000/get_transcript');
+    const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/get_transcript');
     const data = await res.json();
     setTranscript(data.transcript || '');        // original speaker-diarized transcript
     setTranslation(data.translation || '');      // speaker-diarized translation
@@ -128,7 +128,7 @@ export default function File() {
       intervalIdRef.current = null;
     }
 
-    const res = await fetch('http://localhost:5000/clear', { method: 'POST' });
+    const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/clear', { method: 'POST' });
     if (res.ok) {
       alert('Files cleared successfully.');
 
@@ -158,7 +158,7 @@ export default function File() {
 
   const fetchSummary = async () => {
     try {
-      const res = await fetch('http://localhost:5000/get_summary_live');
+      const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/get_summary_live');
       const data = await res.json();
       setSummary(data.summary || 'No summary available.');
       setKeyPoints(data.key_points || 'No key points.');
@@ -170,7 +170,7 @@ export default function File() {
 
   const fetchTranslation = async () => {
     try {
-      const res = await fetch('http://localhost:5000/get-translation');
+      const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/get-translation');
       const data = await res.json();
       setTranslation(data.translation || 'No translation available.');
     } catch (err) {
