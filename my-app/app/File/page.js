@@ -59,7 +59,7 @@ export default function File() {
     formData.append('file', file);
 
     try {
-      const res = await fetch('http://164.52.194.238:80/upload', {
+      const res = await fetch('https://8384-103-50-21-208.ngrok-free.app/upload', {
         method: 'POST',
         body: formData,
       });
