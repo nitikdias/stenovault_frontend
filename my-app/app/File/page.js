@@ -2,9 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
-
 
 export default function File() {
   const router = useRouter();
@@ -195,59 +192,6 @@ export default function File() {
       console.error('Translation fetch error', err);
     }
   };
-  const generatePDF = () => {
-  const doc = new jsPDF();
-
-  // Title
-  doc.setFontSize(18);
-  doc.setTextColor(40);
-  doc.text(' Meeting Summary Report', 14, 20);
-
-  // Date
-  const currentDate = new Date().toLocaleString();
-  doc.setFontSize(10);
-  doc.setTextColor(100);
-  doc.text(`Generated on: ${currentDate}`, 14, 28);
-
-  // Summary Section
-  autoTable(doc, {
-    startY: 35,
-    head: [['Section', 'Details']],
-    body: [
-      [' Summary', summary || 'No summary available.'],
-      [' Key Points', keyPoints || 'No key points available.'],
-      [' Actions Required', actions || 'No action items available.'],
-    ],
-    styles: { fontSize: 11, cellPadding: 6 },
-    headStyles: {
-      fillColor: [44, 62, 80],
-      textColor: 255,
-      halign: 'left',
-    },
-    bodyStyles: {
-      valign: 'top',
-    },
-    columnStyles: {
-      0: { cellWidth: 40, fontStyle: 'bold' },
-      1: { cellWidth: 140 },
-    },
-  });
-
-  // Save
-  const now = new Date();
-const dateStr = now.toLocaleDateString('en-CA'); // Format: 2025-06-09
-const timeStr = now.toLocaleTimeString('en-US', {
-  hour: 'numeric',
-  minute: 'numeric',
-  hour12: true,
-}).replace(/:/g, '-'); // 1-26 AM
-
-const filename = `Meeting_Summary_Report_${dateStr}_T_${timeStr}.pdf`;
-doc.save(filename);
-
-
-};
-
 
   return (
     <div className="flex flex-col items-center py-10 bg-gradient-to-r from-blue-100 to-white min-h-screen">
@@ -403,13 +347,6 @@ doc.save(filename);
           {translation}
         </div>
       </div>
-      <button
-        onClick={generatePDF}
-        className="bg-purple-600 text-white mx-5 py-3 px-3 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-300"
-      >
-        📄 Download Report
-      </button>
-
     </div>
   );
 }
