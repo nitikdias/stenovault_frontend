@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Recorder from 'recorder-js';
 import '../globals.css'
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 
 export default function Home() {
@@ -81,6 +83,8 @@ export default function Home() {
       console.error('Summary fetch error', err);
     }
   };
+
+
 
   const getTranslation = async () => {
     try {
@@ -185,6 +189,59 @@ export default function Home() {
       console.error('Clear data error:', err);
       alert('❌ Failed to clear data.');
     }
+  };
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+  
+    // Title
+    doc.setFontSize(18);
+    doc.setTextColor(40);
+    doc.text(' Meeting Summary Report', 14, 20);
+  
+    // Date
+    const currentDate = new Date().toLocaleString();
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(`Generated on: ${currentDate}`, 14, 28);
+  
+    // Summary Section
+    autoTable(doc, {
+      startY: 35,
+      head: [['Section', 'Details']],
+      body: [
+        [' Summary', summary || 'No summary available.'],
+        [' Key Points', keyPoints || 'No key points available.'],
+        [' Actions Required', actions || 'No action items available.'],
+      ],
+      styles: { fontSize: 11, cellPadding: 6 },
+      headStyles: {
+        fillColor: [44, 62, 80],
+        textColor: 255,
+        halign: 'left',
+      },
+      bodyStyles: {
+        valign: 'top',
+      },
+      columnStyles: {
+        0: { cellWidth: 40, fontStyle: 'bold' },
+        1: { cellWidth: 140 },
+      },
+    });
+  
+    // Save
+    const now = new Date();
+const dateStr = now.toLocaleDateString('en-CA'); // Format: 2025-06-09
+const timeStr = now.toLocaleTimeString('en-US', {
+  hour: 'numeric',
+  minute: 'numeric',
+  hour12: true,
+}).replace(/:/g, '-'); // 1-26 AM
+
+const filename = `Meeting_Summary_Report_${dateStr}_T_${timeStr}.pdf`;
+doc.save(filename);
+
+  
   };
 
   return (
@@ -317,6 +374,12 @@ export default function Home() {
           <h2 className="font-semibold text-gray-700 mb-2">🌐 Translation</h2>
           <div className="bg-gray-100 p-3 rounded h-40 overflow-y-auto whitespace-pre-wrap">{translation}</div>
         </div>
+        <button
+        onClick={generatePDF}
+          className="bg-purple-600 text-white mx-5 py-3 px-3 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-300"
+        >
+          📄 Download Report
+        </button>
       </div>
     </main>
   );
